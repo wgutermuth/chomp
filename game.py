@@ -20,8 +20,6 @@ sand_top = pygame.image.load("assets/images/sand_top.png").convert()
 sand_top.set_colorkey((0,0,0))
 
 # Fish
-fish_graphic = pygame.image.load("assets/images/fish.png").convert()
-fish_graphic.set_colorkey((0,0,0))
 my_fish = fish.Fish() # create a new fish
 
 
@@ -49,22 +47,36 @@ draw_background()
 #pygame.draw.rect(screen, (0,255,0), (200,200, 50,50))
 #pygame.display.flip()
 
-fish_x = 200
-fish_y = 200
-
 while True:
     for event in pygame.event.get():
-
         if event.type == pygame.QUIT:
             print("Thanks for playing")
             pygame.quit()
             sys.exit()
-        if event.type == pygame.KEYDOWN:
-            print(f'The {event.key} is pressed!')
+        elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                my_fish.move_left()
+                my_fish.moving_left = True
             if event.key == pygame.K_RIGHT:
-                my_fish.move_right()
-    screen.blit(background, (0,0))
+                my_fish.moving_right = True
+            if event.key == pygame.K_UP:
+                my_fish.moving_up = True
+            if event.key == pygame.K_DOWN:
+                my_fish.moving_down = True
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT:
+                my_fish.moving_left = False
+            if event.key == pygame.K_RIGHT:
+                my_fish.moving_right = False
+            if event.key == pygame.K_UP:
+                my_fish.moving_up = False
+            if event.key == pygame.K_DOWN:
+                my_fish.moving_down = False
+
+    # Clear the screen
+    screen.blit(background, (0, 0))
+    # Update fish movement
+    my_fish.update()
+    # Draw the fish
     my_fish.draw(screen)
+    # Update the display
     pygame.display.flip()
